@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人消费记账看板</title>
+  <link href="libs.1/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .chart-box { height: 360px; position: relative; }
+    #status { display: none; }
+    #status.is-visible { display: flex; align-items: center; justify-content: space-between; }
+    #dashboard { display: none; }
+    #dashboard.is-visible { display: block; }
+    .stat-card { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+    #range-filters .btn.active { background-color: #0d6efd; color: #fff; border-color: #0d6efd; }
+  </style>
+</head>
+<body class="container py-4">
+  <header>
+    <h1 class="h3">个人消费记账看板</h1>
+    <p class="text-muted" id="sub-title">数据来源：加载中…</p>
+  </header>
+
+  <p id="status" class="alert alert-warning">
+    <span id="status-text"></span>
+    <button id="retry-btn" type="button" class="btn btn-sm btn-primary ms-3" style="display:none;">重试</button>
+  </p>
+
+  <div id="dashboard">
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <span class="small text-muted">时间范围：</span>
+      <div id="range-filters" class="btn-group btn-group-sm" role="group">
+        <button type="button" class="btn btn-outline-primary active" data-range="all">全部月份</button>
+        <button type="button" class="btn btn-outline-primary" data-range="firstHalf">上半年（1-6月）</button>
+        <button type="button" class="btn btn-outline-primary" data-range="recent3">近三个月</button>
+      </div>
+    </div>
+
+    <section class="row g-3 mb-4" id="cards"></section>
+
+    <section class="row g-3">
+      <div class="col-lg-6">
+        <h2 class="h5">各月分类支出对比（ECharts柱状图）</h2>
+        <p class="small text-muted mb-2">单位：元 · 数据来源：自建模拟记账数据（2026年1-8月）</p>
+        <div id="bar-chart" class="chart-box"></div>
+      </div>
+      <div class="col-lg-6">
+        <h2 class="h5">月度总支出趋势（Chart.js折线图）</h2>
+        <p class="small text-muted mb-2">单位：元 · 数据来源：自建模拟记账数据（2026年1-8月）</p>
+        <div class="chart-box"><canvas id="line-chart"></canvas></div>
+      </div>
+    </section>
+
+    <p class="small text-muted mt-3">
+      选型说明：分类支出比较用<strong>柱状图</strong>（回答"谁多谁少"）；总支出随时间变化用<strong>折线图</strong>（回答"怎么变化"，折线暗示时间连续性）。点击统计卡片可高亮，点击图表下方图例可切换品类。
+    </p>
+  </div>
+
+  <footer class="small text-muted mt-4 border-top pt-2">
+    界面状态演示：
+    <a href="?state=empty">空数据</a> ·
+    <a href="?state=error">失败（404）</a> ·
+    <a href="index.1.html">正常数据</a>
+    <span class="d-block">“加载中”状态可在开发者工具 Network 面板选择 Fast/Slow 3G 限速后刷新观察。</span>
+  </footer>
+
+  <script src="libs.1/jquery-3.7.1.min.js"></script>
+  <script src="libs.1/bootstrap.bundle.min.js"></script>
+  <script src="libs.1/echarts.min.js"></script>
+  <script src="libs.1/chart.umd.js"></script>
+  <script src="app.1.js"></script>
+</body>
+</html>
