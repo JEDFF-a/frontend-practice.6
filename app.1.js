@@ -156,7 +156,22 @@ const renderAll = () => {
   renderLineChart(filtered);
 };
 
+// jQuery 交互一：时间范围筛选（事件委托写法，按钮动态生成也能覆盖）
+$('#range-filters').on('click', 'button', function () {
+  state.range = $(this).data('range');
+  $(this).addClass('active').siblings().removeClass('active');
+  renderAll();
+});
 
+// jQuery 交互二：点击统计卡片高亮（toggleClass 切换边框与阴影）
+$('#cards').on('click', '.stat-card', function () {
+  $(this).toggleClass('border-primary shadow');
+});
+
+// 失败状态下点击"重试"：重新加载正常数据
+$('#retry-btn').on('click', () => {
+  loadData('data.1/expenses.json');
+});
 // 窗口拉伸：ECharts 需手动 resize；Chart.js 设置 maintainAspectRatio:false 后自动适配
 window.addEventListener('resize', () => {
   if (barChart !== null) {
